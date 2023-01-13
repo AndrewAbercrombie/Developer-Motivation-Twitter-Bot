@@ -13,23 +13,17 @@ const generate = async (input) => {
     console.error("Please set the OPENAI_API_KEY environment variable.");
   }
 
-
   try {
     const completion = await openai.createCompletion({
       model: "text-davinci-003",
       prompt: input,
-      temperature: .5,
+      max_tokens: 100,
     });
     return completion.data.choices[0].text;
   } catch(error) {
-    // Consider adjusting the error handling logic for your use case
-    if (error.response) {
-      console.error(error.response.status, error.response.data);
-    } else {
-      console.error(`Error with OpenAI API request: ${error.message}`);
-    }
+    console.error(`Error with OpenAI API request: ${error.message}`);
+    return false;
   }
 };
-
 
   module.exports = { generate }
